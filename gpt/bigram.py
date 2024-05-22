@@ -116,4 +116,4 @@ for i in range(max_iters):
 # Generate
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 with open('output.txt', 'w') as f:
-    f.write(decode(model.generate(context, max_tokens=512)[0].tolist()))
+    f.write(decode(model.generate(context, max_tokens=2048)[0].tolist()))

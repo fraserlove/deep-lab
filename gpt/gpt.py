@@ -1,3 +1,9 @@
+"""
+GPT Model.
+
+Based off the GPT-2 model:
+https://github.com/openai/gpt-2/blob/master/src/model.py
+"""
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,10 +14,10 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu' # Use GPU if available
 
 # Hyperparameters
 batch_size = 32 # Sequences to process in parallel
-block_size = 128 # Maximum context length for predictions
+block_size = 256 # Maximum context length for predictions
 max_iters = 5000 # Iterations to train the model
 eval_iters = 200 # Iterations to average the loss over
-n_embed = 32 # Embedding dimensions
+n_embed = 128 # Embedding dimensions
 n_head = 4 # Heads in the multi-head self-attention
 n_block = 4 # Number of transformer blocks
 dropout = 0.2 # Dropout probability
@@ -132,7 +138,7 @@ class Block(nn.Module):
         return x
 
 class GPTLanguageModel(nn.Module):
-    """GPT Decoder model. Consists of an embedding layer, transformer blocks, and a linear head."""
+    """GPT language model. Consists of an embedding layer, transformer blocks, and a linear head."""
 
     def __init__(self):
         super().__init__()
@@ -163,7 +169,7 @@ class GPTLanguageModel(nn.Module):
 
     def generate(self, x: torch.Tensor, max_tokens: int) -> torch.Tensor:
         for _ in range(max_tokens):
-            # Crop to the last block_size tokens
+            # Crop the sequence context to the last block_size tokens
             x_last = x[:, -block_size:]
             # Get the previous predictions
             logits, _ = self(x_last)
@@ -204,4 +210,4 @@ for i in range(max_iters):
 # Generate
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 with open('output.txt', 'w') as f:
-    f.write(decode(model.generate(context, max_tokens=512)[0].tolist()))
+    f.write(decode(model.generate(context, max_tokens=2048)[0].tolist()))
