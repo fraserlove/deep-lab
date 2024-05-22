@@ -143,6 +143,7 @@ class GPTLanguageModel(nn.Module):
         self.lm_head = nn.Linear(n_embed, vocab_size) # (B,T,C) -> (B,T,C')
 
     def forward(self, x: torch.Tensor, y: torch.Tensor = None) -> tuple[torch.Tensor, torch.Tensor]:
+        B, T = x.shape
         token_embed = self.token_embed_table(x)
         position_embed = self.position_embed_table(torch.arange(T, device=device))
         embed = token_embed + position_embed
@@ -178,6 +179,9 @@ class GPTLanguageModel(nn.Module):
 
 model = GPTLanguageModel()
 model = model.to(device)
+
+total_params = sum(param.numel() for param in model.parameters())
+print(f'Model parameters: {total_params}')
 
 # Training the model
 optimiser = torch.optim.AdamW(model.parameters(), lr=lr)

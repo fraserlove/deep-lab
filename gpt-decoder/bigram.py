@@ -92,6 +92,9 @@ class BigramLanguageModel(nn.Module):
 model = BigramLanguageModel()
 model = model.to(device)
 
+total_params = sum(param.numel() for param in model.parameters())
+print(f'Model parameters: {total_params}')
+
 # Training the model
 optimiser = torch.optim.AdamW(model.parameters(), lr=lr)
 
