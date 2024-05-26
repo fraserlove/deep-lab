@@ -1,4 +1,4 @@
-from tokeniser.gpt import GPTTokeniser
+from gpt.tokeniser.gpt import GPTTokeniser
 
 vocab_size = 10000 # Target number of unique tokens
 
@@ -12,7 +12,7 @@ special_tokens = {
 }
 
 # Load new text from a file
-with open('input.txt', 'r', encoding='utf-8') as file:
+with open('openwebtext-10k.txt', 'r', encoding='utf-8') as file:
     text = file.read()
 
 tokeniser = GPTTokeniser()
@@ -21,4 +21,4 @@ tokeniser.train(text, vocab_size=vocab_size, verbose=True)
 # Register special tokens
 tokeniser.register_special_tokens(special_tokens)
 
-tokeniser.save('input')
+tokeniser.save('openwebtext-10k')

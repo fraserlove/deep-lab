@@ -1,0 +1,4 @@
+# Automatic Differentiation
+A library which implements reverse-mode (backpropagation) auto-diff built over a dynamically built Direct Acyclic Graph (DAG) of operations with a small feedforward neural network library built on top of it. The library is built from the ground up, only uses the `math` and `numpy` libraries, and is built with a PyTorch-like API. This library only supports scalar operations and is not optimised for performance via GPU acceleration with tensor operations. This library loosely follows Andrej Karpathy's [Micrograd](https://github.com/karpathy/micrograd/tree/master) engine.
+
+Note that in order to visualise and debug backpropagation via automatically generated DAGs, `graphviz` must be installed on your system.
