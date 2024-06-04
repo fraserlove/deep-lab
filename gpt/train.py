@@ -57,8 +57,7 @@ config = GPTConfig(
     n_embd = 64
 )
 
-model = GPTLanguageModel(config)
-model = model.to(device)
+model = GPTLanguageModel(config).to(device)
 
 total_params = sum(param.numel() for param in model.parameters())
 print(f'Model parameters: {total_params}')
@@ -84,4 +83,4 @@ for i in range(max_iters):
 # Generate
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 with open('output.txt', 'w') as f:
-    f.write(tokeniser.decode(model.generate(context, max_tokens=512)[0].tolist()))
+    f.write(tokeniser.decode(model.generate(context, max_tokens=512)[0].tolist()))[0].tolist()))
