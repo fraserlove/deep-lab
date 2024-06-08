@@ -4,11 +4,11 @@ import torch.nn as nn
 from gpt.gpt import GPTLanguageModel, GPTConfig
 from gpt.tokeniser.gpt import GPTTokeniser
 
-block_size = 256 # Maximum context length for predictions
-batch_size = 64 # Sequences to process in parallel
-max_iters = 5000 # Iterations to train the model
+block_size = 2048 # Maximum context length for predictions
+batch_size = 128 # Sequences to process in parallel
+max_iters = 20000 # Iterations to train the model
 eval_iters = 200 # Iterations to average the loss over
-lr = 6e-4 # Learning rate
+lr = 1e-5 # Learning rate
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu' # Use GPU if available
 device_name = f' ({torch.cuda.get_device_name(0)})' if device == 'cuda' else ''
@@ -52,9 +52,9 @@ def estimate_loss(model: nn.Module) -> dict[str, float]:
 config = GPTConfig(
     block_size = block_size,
     vocab_size = tokeniser.vocab_size(),
-    n_layer = 4,
-    n_head = 4,
-    n_embd = 64
+    n_layer = 12,
+    n_head = 12,
+    n_embd = 768
 )
 
 model = GPTLanguageModel(config).to(device)
@@ -83,4 +83,4 @@ for i in range(max_iters):
 # Generate
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 with open('output.txt', 'w') as f:
-    f.write(tokeniser.decode(model.generate(context, max_tokens=512)[0].tolist()))[0].tolist()
+    f.write(tokeniser.decode(model.generate(context, max_tokens=512)[0].tolist()))
