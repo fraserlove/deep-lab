@@ -14,10 +14,10 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu' # Use GPU if available
 device_name = f' ({torch.cuda.get_device_name(0)})' if device == 'cuda' else ''
 print(f'Device: {device}{device_name}')
 
-with open('../openwebtext-10k.txt', 'r', encoding='utf-8') as f:
+with open('openwebtext-10k.txt', 'r', encoding='utf-8') as f:
     text = f.read()
 
-tokeniser = GPTTokeniser('../openwebtext-10k.tkn')
+tokeniser = GPTTokeniser('openwebtext-10k.tkn')
 
 # Train and validation splits
 data = torch.tensor(tokeniser.encode(text, 'all'), dtype=torch.long)
