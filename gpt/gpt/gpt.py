@@ -108,9 +108,8 @@ class GPTLanguageModel(nn.Module):
 
     def forward(self, x: torch.Tensor, y: torch.Tensor = None) -> tuple[torch.Tensor, torch.Tensor]:
         B, T = x.shape
-        device = x.device # Use GPU if available
         token_embd = self.token_embd_table(x)
-        position_embd = self.position_embd_table(torch.arange(T, device=device))
+        position_embd = self.position_embd_table(torch.arange(T, device=x.device))
         embed = token_embd + position_embd
         embed = self.blocks(embed)
         embed = self.layer_norm(embed)
